@@ -44,4 +44,5 @@ fastlane/test_output
 
 # Secrets (if any)
 *.env
-Secrets.swift
+**/Secrets.swift
+GlowGuide/GlowGuide/Configuration/Secrets.swift

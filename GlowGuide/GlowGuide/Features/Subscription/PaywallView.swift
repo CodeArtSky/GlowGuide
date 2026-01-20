@@ -136,16 +136,25 @@ struct PaywallView: View {
                 ProgressView()
                     .padding()
             } else if subscriptionManager.products.isEmpty {
-                Text("Unable to load subscription options")
-                    .foregroundColor(.secondary)
-                    .padding()
+                VStack(spacing: 12) {
+                    Text("Unable to load subscription options")
+                        .foregroundColor(.secondary)
 
-                Button("Retry") {
-                    Task {
-                        await subscriptionManager.loadProducts()
+                    #if DEBUG
+                    Text("Configure StoreKit in Xcode:\nEdit Scheme → Run → Options → StoreKit Configuration")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                        .multilineTextAlignment(.center)
+                    #endif
+
+                    Button("Retry") {
+                        Task {
+                            await subscriptionManager.loadProducts()
+                        }
                     }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
+                .padding()
             } else {
                 // Yearly option (highlighted)
                 if let yearly = subscriptionManager.yearlyProduct {

@@ -11,6 +11,9 @@ struct LookResultView: View {
     @State private var isGeneratingImage = false
     @State private var imageError: String?
 
+    // Image generation state
+    @State private var geminiImageData: String?
+
     private let lookService = LookGeneratorService()
 
     var body: some View {
@@ -130,45 +133,19 @@ struct LookResultView: View {
 
                 Spacer()
 
-                if APIConfig.useImageGeneration {
-                    Text("Powered by DALL-E 3")
+                if APIConfig.geminiAPIKey != nil {
+                    Text("Powered by Gemini")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
             }
 
-            // Image display area
-            if let imageURL = generatedImageURL ?? look.imageURL,
-               let url = URL(string: imageURL) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(height: 200)
-                            .frame(maxWidth: .infinity)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(12)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    case .failure:
-                        VStack(spacing: 8) {
-                            Image(systemName: "photo")
-                                .font(.largeTitle)
-                                .foregroundColor(.gray)
-                            Text("Failed to load image")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .frame(height: 200)
-                        .frame(maxWidth: .infinity)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(12)
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
+            // Gemini generated image
+            if let imageData = geminiImageData {
+                Base64ImageView(base64String: imageData)
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(12)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
             } else if isGeneratingImage {
                 VStack(spacing: 12) {
                     ProgressView()
@@ -194,7 +171,7 @@ struct LookResultView: View {
             } else if APIConfig.useImageGeneration {
                 // Generate button
                 Button {
-                    generateImage()
+                    generateGeminiImage()
                 } label: {
                     HStack {
                         Image(systemName: "sparkles")
@@ -228,7 +205,7 @@ struct LookResultView: View {
                     Text("Image generation unavailable")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    Text("Add your OpenAI API key to enable this feature")
+                    Text("Add API key to enable this feature")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -243,10 +220,6 @@ struct LookResultView: View {
         .background(Color.white)
         .cornerRadius(16)
         .onAppear {
-            // Auto-load image if already available
-            if look.imageURL != nil {
-                generatedImageURL = look.imageURL
-            }
             // Track in history
             appState.addToHistory(look)
         }
@@ -314,6 +287,31 @@ struct LookResultView: View {
                 await MainActor.run {
                     HapticManager.success()
                     self.generatedImageURL = imageURL
+                    self.isGeneratingImage = false
+                }
+            } catch {
+                await MainActor.run {
+                    HapticManager.error()
+                    self.imageError = "Failed to generate image. Please try again."
+                    self.isGeneratingImage = false
+                }
+            }
+        }
+    }
+
+    private func generateGeminiImage() {
+        guard !isGeneratingImage else { return }
+
+        HapticManager.mediumImpact()
+        isGeneratingImage = true
+        imageError = nil
+
+        Task {
+            do {
+                let imageData = try await lookService.generateLookImage(for: look)
+                await MainActor.run {
+                    HapticManager.success()
+                    self.geminiImageData = imageData
                     self.isGeneratingImage = false
                 }
             } catch {
@@ -426,6 +424,48 @@ struct ShareSheet: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
+// MARK: - Base64 Image View
+
+struct Base64ImageView: View {
+    let base64String: String
+
+    var body: some View {
+        if let image = decodeBase64Image() {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        } else {
+            VStack(spacing: 4) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.title2)
+                    .foregroundColor(.orange)
+                Text("Decode error")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .aspectRatio(1, contentMode: .fit)
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
+        }
+    }
+
+    private func decodeBase64Image() -> UIImage? {
+        // Handle data URL format: data:image/png;base64,xxxxx
+        var base64Data = base64String
+
+        if base64String.contains(",") {
+            base64Data = String(base64String.split(separator: ",").last ?? "")
+        }
+
+        guard let data = Data(base64Encoded: base64Data) else {
+            return nil
+        }
+
+        return UIImage(data: data)
+    }
 }
 
 #Preview {

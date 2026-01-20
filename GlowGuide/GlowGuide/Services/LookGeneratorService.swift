@@ -5,6 +5,7 @@ import Foundation
 class LookGeneratorService {
 
     private let openAIClient = OpenAIAPIClient()
+    private let geminiClient = GeminiAPIClient()
 
     // MARK: - Public API
 
@@ -32,20 +33,57 @@ class LookGeneratorService {
         }
     }
 
-    /// Generate a reference image for the makeup look using DALL-E 3
+    /// Generate a reference image for the makeup look using the configured provider
     func generateLookImage(for look: MakeupLook) async throws -> String? {
-        guard APIConfig.useImageGeneration else {
-            print("Image generation not enabled")
+        // Use Gemini if available, otherwise DALL-E
+        if APIConfig.geminiAPIKey != nil {
+            return try await generateWithGemini(for: look)
+        } else if APIConfig.openAIAPIKey != nil {
+            return try await generateWithDalle(for: look)
+        }
+        print("No image generation API configured")
+        return nil
+    }
+
+    /// Generate images from BOTH providers for comparison
+    /// Returns tuple: (geminiImage, dalleImage)
+    func generateComparisonImages(for look: MakeupLook) async -> (gemini: String?, dalle: String?) {
+        async let geminiImage = generateWithGemini(for: look)
+        async let dalleImage = generateWithDalle(for: look)
+
+        return await (gemini: geminiImage, dalle: dalleImage)
+    }
+
+    /// Generate image using Gemini Imagen
+    private func generateWithGemini(for look: MakeupLook) async -> String? {
+        guard APIConfig.geminiAPIKey != nil else {
+            print("Gemini API key not configured")
             return nil
         }
+        do {
+            print("Generating reference image with Gemini Imagen...")
+            let imageData = try await geminiClient.generateLookImage(for: look)
+            print("Gemini image generated successfully")
+            return imageData
+        } catch {
+            print("Gemini image generation failed: \(error.localizedDescription)")
+            return nil
+        }
+    }
 
+    /// Generate image using DALL-E 3
+    private func generateWithDalle(for look: MakeupLook) async -> String? {
+        guard APIConfig.openAIAPIKey != nil else {
+            print("OpenAI API key not configured")
+            return nil
+        }
         do {
             print("Generating reference image with DALL-E 3...")
             let imageUrl = try await openAIClient.generateLookImage(for: look)
-            print("Image generated successfully")
+            print("DALL-E image generated successfully")
             return imageUrl
         } catch {
-            print("Image generation failed: \(error.localizedDescription)")
+            print("DALL-E image generation failed: \(error.localizedDescription)")
             return nil
         }
     }
