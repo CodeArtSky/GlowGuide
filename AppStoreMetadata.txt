@@ -1,0 +1,182 @@
+# GlowGuide - App Store Submission Metadata
+# Copy/paste this content into App Store Connect
+
+================================================================================
+APP NAME
+================================================================================
+GlowGuide
+
+================================================================================
+SUBTITLE (30 characters max)
+================================================================================
+AI Beauty Recommendations
+
+================================================================================
+DESCRIPTION
+================================================================================
+Get personalized makeup looks powered by AI! GlowGuide creates custom beauty recommendations based on your unique features, the occasion, and how you want to feel.
+
+HOW IT WORKS:
+1. Tell us about yourself - skin tone, hair color, eye color, and preferences
+2. Select your occasion - date night, work, casual, party, and more
+3. Choose your mood - confident, natural, glamorous, edgy, and more
+4. Get instant AI-generated beauty recommendations tailored just for you
+
+FEATURES:
+- AI-Powered Recommendations: Our smart AI analyzes your features and preferences to create personalized looks
+- 8 Occasions: Date Night, Work/Office, Casual Day, Party/Night Out, Wedding/Formal, Workout, Beach/Pool, Special Event
+- 8 Moods: Confident, Natural, Glamorous, Edgy, Romantic, Fresh, Bold, Sophisticated
+- Save Favorites: Keep your favorite looks for easy reference
+- Share Looks: Create beautiful social media-ready graphics of your looks
+
+FREE TIER:
+- 3 look generations
+- 3 saved looks
+
+GLOWGUIDE PRO:
+Unlock unlimited potential with GlowGuide Pro:
+- Unlimited look generations
+- Unlimited saved looks
+- AI-generated reference images
+- Premium social sharing templates
+- No advertisements
+
+SUBSCRIPTION OPTIONS:
+- Monthly: $4.99/month
+- Yearly: $29.99/year (save 50%!)
+- Lifetime: $79.99 one-time purchase
+
+Payment will be charged to your Apple ID account at confirmation of purchase. Subscriptions automatically renew unless auto-renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel subscriptions in your Apple ID Account Settings.
+
+Privacy Policy: [YOUR_PRIVACY_POLICY_URL]
+Terms of Service: [YOUR_TERMS_URL]
+
+================================================================================
+KEYWORDS (100 characters max, comma separated)
+================================================================================
+makeup,beauty,AI,looks,cosmetics,style,skincare,fashion,tips,personalized,recommendations
+
+================================================================================
+PROMOTIONAL TEXT (170 characters max)
+================================================================================
+Your personal AI beauty advisor! Get custom makeup recommendations for any occasion and mood. Try free today!
+
+================================================================================
+WHAT'S NEW (Version 1.0)
+================================================================================
+Welcome to GlowGuide! Your AI-powered beauty companion is here.
+
+- Personalized makeup recommendations
+- 8 occasions and 8 moods to choose from
+- Save your favorite looks
+- Beautiful sharing templates
+- GlowGuide Pro subscription for unlimited access
+
+================================================================================
+CATEGORY
+================================================================================
+Primary: Lifestyle
+Secondary: Health & Fitness
+
+================================================================================
+AGE RATING
+================================================================================
+4+ (No objectionable content)
+
+================================================================================
+PRIVACY POLICY URL
+================================================================================
+[You need to host privacy-policy.html and enter the URL here]
+
+================================================================================
+SUPPORT URL
+================================================================================
+[Your support website or email: glowguide.app@gmail.com]
+
+================================================================================
+MARKETING URL (Optional)
+================================================================================
+[Your app website if you have one]
+
+================================================================================
+COPYRIGHT
+================================================================================
+2026 GlowGuide
+
+================================================================================
+SCREENSHOTS NEEDED
+================================================================================
+You'll need to capture these from the iOS Simulator:
+
+iPhone 6.7" (iPhone 14 Pro Max) - REQUIRED:
+1. Onboarding screen with skin tone selection
+2. Home screen with occasion selection
+3. Home screen with mood selection
+4. Generated look result
+5. Saved looks gallery
+6. Paywall/subscription screen
+
+iPhone 6.5" (iPhone 14 Plus) - REQUIRED for older devices
+
+iPhone 5.5" (iPhone 8 Plus) - Optional but recommended
+
+iPad Pro 12.9" - Only if you support iPad
+
+SCREENSHOT TIPS:
+- Use light mode for most screenshots
+- Hide the status bar or use a clean status bar
+- Show the app's best features
+- Include text overlays if desired
+
+================================================================================
+APP PREVIEW VIDEO (Optional)
+================================================================================
+15-30 second video showing the app flow:
+1. Open app
+2. Select occasion
+3. Select mood
+4. Show generated look
+5. Save to favorites
+
+================================================================================
+IN-APP PURCHASES (Already configured)
+================================================================================
+Product ID: com.glowguide.pro.monthly
+Display Name: GlowGuide Pro Monthly
+Price: $4.99
+
+Product ID: com.glowguide.pro.yearly
+Display Name: GlowGuide Pro Yearly
+Price: $29.99
+
+Product ID: com.glowguide.pro.lifetime
+Display Name: Lifetime Pro
+Price: $79.99
+
+================================================================================
+APP REVIEW INFORMATION
+================================================================================
+Demo Account: Not required (no login)
+Notes for Review:
+This app uses AI to generate personalized makeup recommendations.
+Free users can generate 3 looks and save 3 looks.
+Subscription unlocks unlimited access.
+The AI recommendations are generated using OpenAI's API.
+
+================================================================================
+NEXT STEPS
+================================================================================
+1. Host privacy-policy.html and terms-of-service.html on a public URL
+   (Options: GitHub Pages, your website, or a free hosting service)
+
+2. Create App Store Connect record for your app
+
+3. Configure In-App Purchases in App Store Connect
+   - Create subscription group "GlowGuide Pro"
+   - Add monthly, yearly, and lifetime products
+
+4. Take screenshots on iPhone simulator
+
+5. Archive and upload build from Xcode
+
+6. Submit for review
