@@ -1,48 +1,71 @@
+# GlowGuide .gitignore
+
+# API Keys and Secrets - NEVER COMMIT THESE
+**/Secrets.swift
+**/Secrets.plist
+**/*-Secrets.swift
+**/*.secret
+.env
+.env.*
+
 # Xcode
-build/
-DerivedData/
 *.xcuserstate
+*.xccheckout
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+xcuserdata/
+*.xcscmblueprint
 *.xcworkspace/xcuserdata/
-*.xcodeproj/xcuserdata/
-*.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 
 # Swift Package Manager
 .build/
+.swiftpm/
 Packages/
+Package.pins
 Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
 
 # macOS
 .DS_Store
 .AppleDouble
 .LSOverride
 ._*
-
-# Finder
 .Spotlight-V100
 .Trashes
 
-# Archives
-*.ipa
-*.dSYM.zip
-*.dSYM
+# IDE
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
 
-# Playgrounds
-timeline.xctimeline
-playground.xcworkspace
+# Build artifacts
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
 
-# Swift Playgrounds
-*.playground/
-
-# fastlane
+# Fastlane
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
 # Code Injection
-.injection/
-
-# Secrets (if any)
-*.env
-**/Secrets.swift
-GlowGuide/GlowGuide/Configuration/Secrets.swift
+iOSInjectionProject/
